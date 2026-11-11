@@ -1,0 +1,194 @@
+/* Feuille de style du Portail DevOps - TP 3
+   Conçue pour une lisibilité optimale en vidéoprojection (contrastes élevés) */
+
+:root {
+  --bg-page: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-alt: #26354d;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --accent-blue: #38bdf8;
+  --accent-green: #22c55e;
+  --accent-amber: #f59e0b;
+  --border-color: #334155;
+  --font-sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  background-color: var(--bg-card);
+  border-bottom: 2px solid var(--accent-blue);
+  padding: 1.5rem 2rem;
+}
+
+.topbar-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.topbar h1 {
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.topbar .subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+.version-badge {
+  display: inline-block;
+  background-color: rgba(56, 189, 248, 0.15);
+  color: var(--accent-blue);
+  border: 2px solid var(--accent-blue);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+}
+
+.container {
+  max-width: 1120px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  flex: 1;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  color: var(--accent-blue);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.info-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.info-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--bg-card-alt);
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+}
+
+.info-label {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.info-value {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.status-ok {
+  background-color: rgba(34, 197, 94, 0.18);
+  color: var(--accent-green);
+  border: 1px solid var(--accent-green);
+}
+
+.status-pending {
+  background-color: rgba(245, 158, 11, 0.18);
+  color: var(--accent-amber);
+  border: 1px solid var(--accent-amber);
+}
+
+.pipeline-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pipeline-steps li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-card-alt);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+
+.footer {
+  text-align: center;
+  padding: 1.25rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    padding: 1.25rem 1rem;
+  }
+
+  .info-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .info-value {
+    text-align: left;
+  }
+}
