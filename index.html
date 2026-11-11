@@ -3,33 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portail DevOps - TP 3 (v1.0)</title>
+  <title>Portail DevOps - TP 3</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Portail DevOps - TP 3</h1>
-    <p>Version : <strong>v1.0</strong> — Initialisation du dépôt statique</p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <h1>Portail DevOps - TP 3</h1>
+        <p class="subtitle">Tableau de bord de statut de déploiement statique (Git &amp; Apache 2)</p>
+      </div>
+      <span class="version-badge">v1.1-ui</span>
+    </div>
   </header>
 
-  <main>
-    <section>
-      <h2>Environnement Cible</h2>
-      <ul>
-        <li>Hébergement : VPS Contabo</li>
-        <li>Système : Ubuntu 22.04 LTS</li>
-        <li>Serveur Web : Apache 2 (stack LAMP statique)</li>
-        <li>Répertoire de déploiement : <code>/var/www/html/&lt;user&gt;</code></li>
-      </ul>
-    </section>
+  <main class="container">
+    <div class="dashboard-grid">
+      <section class="card">
+        <h2>Environnement Serveur</h2>
+        <ul class="info-list">
+          <li>
+            <span class="info-label">Infrastructure</span>
+            <span class="info-value">VPS Contabo</span>
+          </li>
+          <li>
+            <span class="info-label">Système d'exploitation</span>
+            <span class="info-value">Ubuntu 22.04 LTS</span>
+          </li>
+          <li>
+            <span class="info-label">Serveur Web</span>
+            <span class="info-value">Apache 2 (Statique)</span>
+          </li>
+          <li>
+            <span class="info-label">Chemin cible</span>
+            <span class="info-value">/var/www/html/&lt;user&gt;</span>
+          </li>
+        </ul>
+      </section>
 
-    <section>
-      <h2>Statut du Déploiement</h2>
-      <p>Socle initial prêt pour le développement des fonctionnalités et du pipeline CI/CD.</p>
-    </section>
+      <section class="card">
+        <h2>Poste Étudiant &amp; Workflow</h2>
+        <ul class="info-list">
+          <li>
+            <span class="info-label">Poste de travail</span>
+            <span class="info-value">Windows (Git Bash)</span>
+          </li>
+          <li>
+            <span class="info-label">Client SSH</span>
+            <span class="info-value">SmarTTY / OpenSSH</span>
+          </li>
+          <li>
+            <span class="info-label">Branche de production</span>
+            <span class="info-value">main</span>
+          </li>
+          <li>
+            <span class="info-label">État du socle UI</span>
+            <span class="status-pill status-ok">Opérationnel</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Étapes CI/CD</h2>
+        <ul class="pipeline-steps">
+          <li>
+            <span>1. Gestion de versions Git</span>
+            <span class="status-pill status-ok">Validé</span>
+          </li>
+          <li>
+            <span>2. Vérification HTML5 / CSS3</span>
+            <span class="status-pill status-pending">À automatiser</span>
+          </li>
+          <li>
+            <span>3. Déploiement SSH Apache 2</span>
+            <span class="status-pill status-pending">À automatiser</span>
+          </li>
+        </ul>
+      </section>
+    </div>
   </main>
 
-  <footer>
-    <p>TP 3 DevOps — Git, Branches, SSH &amp; GitHub Actions</p>
+  <footer class="footer">
+    <p>TP 3 DevOps — Git, Branches, SSH &amp; GitHub Actions — Support pédagogique statique</p>
   </footer>
 </body>
 </html>
