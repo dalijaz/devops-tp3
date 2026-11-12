@@ -1,0 +1,52 @@
+name: CI/CD - Portail DevOps TP 3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci-verification:
+    name: Vérification statique (HTML5 & CSS3)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupération du code source
+        uses: actions/checkout@v4
+
+      - name: Vérification de la présence des fichiers requis
+        run: |
+          test -f index.html || (echo "Erreur : index.html introuvable" && exit 1)
+          test -f style.css || (echo "Erreur : style.css introuvable" && exit 1)
+          test -s index.html || (echo "Erreur : index.html est vide" && exit 1)
+          test -s style.css || (echo "Erreur : style.css est vide" && exit 1)
+          echo "Fichiers index.html et style.css présents et non vides."
+
+      - name: Contrôle basique de validité HTML5 et CSS3
+        run: |
+          grep -qi "<!DOCTYPE html>" index.html || (echo "Erreur : DOCTYPE HTML5 manquant" && exit 1)
+          grep -qi "</html>" index.html || (echo "Erreur : balise fermante </html> manquante" && exit 1)
+          grep -q 'href="style.css"' index.html || (echo "Erreur : lien vers style.css absent" && exit 1)
+          grep -q "{" style.css && grep -q "}" style.css || (echo "Erreur : syntaxe CSS invalide" && exit 1)
+          echo "Contrôle de validité HTML5/CSS3 réussi."
+
+  cd-deploiement:
+    name: Déploiement SSH sur VPS Ubuntu (Apache 2)
+    needs: ci-verification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configuration de la clé SSH et déploiement sur le VPS
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_deploy "${VPS_USER}@${VPS_HOST}" "cd ${DEPLOY_PATH} && git pull origin main"
+          rm -f ~/.ssh/id_deploy
