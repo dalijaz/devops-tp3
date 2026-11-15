@@ -752,7 +752,7 @@ cat ~/.ssh/authorized_keys</code></pre>
 git config --global user.email "votre.email@exemple.com"
 git config --global init.defaultBranch main</code></pre>
 
-      <p><strong>4.2 Créer votre Fork sur GitHub et cloner votre dépôt :</strong></p>
+      <p><strong>4.2 Créer votre propre dépôt sur GitHub (Fork ou Nouveau dépôt) et cloner :</strong></p>
       <ol>
         <li>Rendez-vous sur le dépôt initial de l'enseignante : <a href="https://github.com/nadaDevops/DevOps_TP3" target="_blank" rel="noopener"><strong>https://github.com/nadaDevops/DevOps_TP3</strong></a>.</li>
         <li>Cliquez sur <strong>Fork</strong> (en haut à droite), décochez <em>« Copy the main branch only »</em> afin de conserver toutes les branches (dont <code>feature/monitoring-widget</code>), puis cliquez sur <strong>Create fork</strong>. Vous obtenez votre propre dépôt : <code>https://github.com/VOTRE_PSEUDO_GITHUB/DevOps_TP3</code>.</li>
@@ -760,7 +760,13 @@ git config --global init.defaultBranch main</code></pre>
       </ol>
       <pre><code>cd ~
 git clone git@github.com:VOTRE_PSEUDO_GITHUB/DevOps_TP3.git
-cd DevOps_TP3</code></pre>
+cd DevOps_TP3
+git remote -v</code></pre>
+      <div class="callout callout-warn">
+        <strong>Si vous avez cloné directement le dépôt de l'enseignante (sans Fork) :</strong> vous n'aurez pas le droit d'y faire un <code>git push</code>. Créez un nouveau dépôt public vide nommé <code>DevOps_TP3</code> sur votre compte GitHub (<code>+ &gt; New repository</code>, sans README), puis changez l'adresse <code>origin</code> vers votre compte avant de continuer :
+        <pre style="margin-top:0.5rem; margin-bottom:0;"><code>git remote set-url origin git@github.com:VOTRE_PSEUDO_GITHUB/DevOps_TP3.git
+git remote -v</code></pre>
+      </div>
 
       <p><strong>4.3 Observer l'historique, les branches et les tags :</strong></p>
       <pre><code>git log --oneline --graph --all --decorate
@@ -810,7 +816,9 @@ git tag -n</code></pre>
 git switch feature/monitoring-widget
 git switch main
 git merge --no-ff feature/monitoring-widget -m "merge: intégration du widget de monitoring"
+git remote -v
 git push -u origin main --tags</code></pre>
+      <p style="font-size:0.9rem; color:#475569;"><em>Astuce :</em> vérifiez que <code>git remote -v</code> affiche bien <code>VOTRE_PSEUDO_GITHUB/DevOps_TP3.git</code> (et non <code>nadaDevops/DevOps_TP3.git</code>) avant d'exécuter <code>git push -u origin main --tags</code>.</p>
       <div class="callout callout-check">
         <strong>Vérification avant l'étape 5 :</strong> Actualisez <strong>votre fork</strong> sur GitHub (<code>https://github.com/VOTRE_PSEUDO_GITHUB/DevOps_TP3</code>) : les fichiers <code>index.html</code>, <code>style.css</code>, <code>README.md</code>, <code>.github/workflows/deploy.yml</code> ainsi que votre commit de fusion doivent impérativement être en ligne sur votre dépôt personnel avant de passer au clonage sur le VPS.
       </div>
