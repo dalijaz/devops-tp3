@@ -805,8 +805,8 @@ git tag -n</code></pre>
       </div>
 
       <p><strong>4.4 Exercice pratique sur la branche ouverte et Push dans votre Fork :</strong></p>
-      <p>Comparez <code>main</code> avec la branche non fusionnée <code>feature/monitoring-widget</code>, fusionnez-la dans <code>main</code> avec un commit de merge explicite, puis <strong>poussez le projet dans votre propre fork GitHub</strong> :</p>
-      <pre><code>git diff main..feature/monitoring-widget
+      <p>Comparez <code>main</code> avec la branche distante non fusionnée <code>origin/feature/monitoring-widget</code> (après un <code>git clone</code>, les branches secondaires sont d'abord référencées sous <code>origin/</code>), basculez dessus pour la créer localement, puis fusionnez-la dans <code>main</code> avec un commit de merge explicite et <strong>poussez le projet dans votre propre fork GitHub</strong> :</p>
+      <pre><code>git diff main..origin/feature/monitoring-widget
 git switch feature/monitoring-widget
 git switch main
 git merge --no-ff feature/monitoring-widget -m "merge: intégration du widget de monitoring"
