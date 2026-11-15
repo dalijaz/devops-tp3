@@ -752,8 +752,12 @@ cat ~/.ssh/authorized_keys</code></pre>
 git config --global user.email "votre.email@exemple.com"
 git config --global init.defaultBranch main</code></pre>
 
-      <p><strong>4.2 Récupérer le dépôt support <code>DevOps_TP3</code> :</strong></p>
-      <p>Rendez-vous sur le dépôt de l'enseignante <a href="https://github.com/nadaDevops/DevOps_TP3" target="_blank" rel="noopener"><strong>https://github.com/nadaDevops/DevOps_TP3</strong></a>, cliquez sur <strong>Fork</strong> (en haut à droite) pour créer votre propre copie sur votre compte GitHub, puis clonez <strong>votre fork</strong> en SSH dans Git Bash :</p>
+      <p><strong>4.2 Créer votre Fork sur GitHub et cloner votre dépôt :</strong></p>
+      <ol>
+        <li>Rendez-vous sur le dépôt initial de l'enseignante : <a href="https://github.com/nadaDevops/DevOps_TP3" target="_blank" rel="noopener"><strong>https://github.com/nadaDevops/DevOps_TP3</strong></a>.</li>
+        <li>Cliquez sur <strong>Fork</strong> (en haut à droite), décochez <em>« Copy the main branch only »</em> afin de conserver toutes les branches (dont <code>feature/monitoring-widget</code>), puis cliquez sur <strong>Create fork</strong>. Vous obtenez votre propre dépôt : <code>https://github.com/VOTRE_PSEUDO_GITHUB/DevOps_TP3</code>.</li>
+        <li>Clonez <strong>votre fork</strong> en SSH dans Git Bash :</li>
+      </ol>
       <pre><code>cd ~
 git clone git@github.com:VOTRE_PSEUDO_GITHUB/DevOps_TP3.git
 cd DevOps_TP3</code></pre>
@@ -800,15 +804,15 @@ git tag -n</code></pre>
         </svg>
       </div>
 
-      <p><strong>4.4 Exercice pratique sur la branche ouverte <code>feature/monitoring-widget</code> :</strong></p>
-      <p>Comparez <code>main</code> avec la branche non fusionnée, inspectez-la, puis fusionnez-la dans <code>main</code> avec un commit de merge explicite :</p>
+      <p><strong>4.4 Exercice pratique sur la branche ouverte et Push dans votre Fork :</strong></p>
+      <p>Comparez <code>main</code> avec la branche non fusionnée <code>feature/monitoring-widget</code>, fusionnez-la dans <code>main</code> avec un commit de merge explicite, puis <strong>poussez le projet dans votre propre fork GitHub</strong> :</p>
       <pre><code>git diff main..feature/monitoring-widget
 git switch feature/monitoring-widget
 git switch main
 git merge --no-ff feature/monitoring-widget -m "merge: intégration du widget de monitoring"
 git push -u origin main --tags</code></pre>
       <div class="callout callout-check">
-        <strong>Vérification :</strong> Actualisez votre dépôt sur GitHub : les fichiers <code>index.html</code>, <code>style.css</code>, <code>README.md</code>, <code>.github/workflows/deploy.yml</code> et vos commits sont en ligne.
+        <strong>Vérification avant l'étape 5 :</strong> Actualisez <strong>votre fork</strong> sur GitHub (<code>https://github.com/VOTRE_PSEUDO_GITHUB/DevOps_TP3</code>) : les fichiers <code>index.html</code>, <code>style.css</code>, <code>README.md</code>, <code>.github/workflows/deploy.yml</code> ainsi que votre commit de fusion doivent impérativement être en ligne sur votre dépôt personnel avant de passer au clonage sur le VPS.
       </div>
     </section>
 
@@ -816,7 +820,10 @@ git push -u origin main --tags</code></pre>
 
     <section class="card" id="etape5">
       <h3><span class="step-badge">ÉTAPE 5</span> Initialisation de l'Espace Web sur le VPS (20 min) <span class="tool-badge tool-smartty">SmarTTY</span> <span class="tool-badge tool-browser">Navigateur</span></h3>
-      <p><strong>5.1 Cloner votre dépôt dans votre dossier Apache personnel :</strong> Dans SmarTTY, placez-vous dans <code>/var/www/html/VOTRE_USER</code> et clonez le dépôt :</p>
+      <div class="callout callout-warn">
+        <strong>Prérequis :</strong> Vérifiez que vous avez bien créé votre <strong>fork</strong> et poussé votre projet dedans à l'étape 4.4. Vous devez cloner <strong>votre propre dépôt GitHub</strong> (<code>VOTRE_PSEUDO_GITHUB/DevOps_TP3</code>) sur le VPS — et non le dépôt initial de l'enseignante — afin que votre pipeline GitHub Actions puisse déployer vos futures modifications.
+      </div>
+      <p><strong>5.1 Cloner votre fork dans votre dossier Apache personnel :</strong> Dans SmarTTY, placez-vous dans <code>/var/www/html/VOTRE_USER</code> et clonez <strong>votre</strong> dépôt :</p>
       <pre><code>cd /var/www/html/VOTRE_USER
 pwd
 git clone https://github.com/VOTRE_PSEUDO_GITHUB/DevOps_TP3.git .
