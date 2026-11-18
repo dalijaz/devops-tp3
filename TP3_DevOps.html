@@ -470,15 +470,15 @@
         <li><a href="#part1-git">Partie I.1 — Le contrôle de version avec Git</a></li>
         <li><a href="#part1-cicd">Partie I.2 — L'automatisation CI/CD &amp; GitHub Actions</a></li>
         <li><a href="#part2-arch">Partie II — Architecture du TP &amp; Règles de sécurité</a></li>
-        <li><a href="#etape1">Bloc 1 · Étape 1 — Paire de clés SSH (Git Bash)</a></li>
-        <li><a href="#etape2">Bloc 1 · Étape 2 — Connexion VPS &amp; Clé SSH (SmarTTY)</a></li>
-        <li><a href="#etape3">Bloc 1 · Étape 3 — Liaison SSH avec GitHub</a></li>
-        <li><a href="#etape4">Bloc 1 · Étape 4 — Exploration &amp; Branches sur <code>DevOps_TP3</code></a></li>
-        <li><a href="#etape5">Bloc 2 · Étape 5 — Déploiement initial sur Apache 2</a></li>
-        <li><a href="#etape6">Bloc 2 · Étape 6 — Clé de déploiement &amp; Secrets GitHub</a></li>
-        <li><a href="#etape7">Bloc 2 · Étape 7 — Pipeline CI/CD <code>deploy.yml</code></a></li>
-        <li><a href="#etape8">Bloc 2 · Étape 8 — Test grandeur nature (<code>v2.1</code>)</a></li>
-        <li><a href="#etape9">Bloc 2 · Étape 9 — Dépannage &amp; Livrables attendus</a></li>
+        <li><a href="#etape1">Étape 1 — Installation de Git &amp; SmarTTY sur Windows</a></li>
+        <li><a href="#etape2">Étape 2 — Création de votre compte GitHub</a></li>
+        <li><a href="#etape3">Étape 3 — Génération de votre clé SSH personnelle</a></li>
+        <li><a href="#etape4">Étape 4 — Ajout de la clé SSH à votre compte GitHub</a></li>
+        <li><a href="#etape5">Étape 5 — Connexion au VPS Contabo via SmarTTY (mot de passe → clé SSH)</a></li>
+        <li><a href="#etape6">Étape 6 — Cloner le dépôt officiel, créer <code>devops-tp3</code> &amp; pousser</a></li>
+        <li><a href="#etape7">Étape 7 — Cloner sur le VPS (<code>/var/www/html/VOTRE_USER</code>) &amp; tester</a></li>
+        <li><a href="#etape8">Étape 8 — 2e clé SSH de déploiement &amp; GitHub Actions Secrets</a></li>
+        <li><a href="#etape9">Étape 9 — Modifier <code>index.html</code>, Commit, Push &amp; Déploiement CI/CD</a></li>
       </ul>
     </nav>
 
@@ -591,7 +591,7 @@ git reset --hard origin/main                  # Réaligne strictement le dossier
     <!-- ================= PARTIE II ================= -->
     <div class="part-banner">
       <h2>PARTIE II : TRAVAUX PRATIQUES (TP 3) — MANUEL GUIDÉ PAS-À-PAS</h2>
-      <p>Mise en œuvre complète avec le dépôt <code>DevOps_TP3</code> sur Windows (Git Bash &amp; SmarTTY), GitHub et le VPS Contabo.</p>
+      <p>Mise en œuvre complète sur Windows (Git Bash &amp; SmarTTY), GitHub et le VPS Contabo (<code>158.220.110.5</code>).</p>
     </div>
 
     <section class="card" id="part2-arch">
@@ -667,26 +667,76 @@ git reset --hard origin/main                  # Réaligne strictement le dossier
       </div>
     </section>
 
-    <div class="bloc-banner">BLOC 1 : Sécurité SSH, Compte GitHub &amp; Versioning Git (90 minutes)</div>
+    <div class="bloc-banner">BLOC 1 : Outils Windows, Compte GitHub, Sécurité SSH &amp; Dépôt Personnel (90 minutes)</div>
 
     <section class="card" id="etape1">
-      <h3><span class="step-badge">ÉTAPE 1</span> Génération de votre Paire de Clés SSH (20 min) <span class="tool-badge tool-gitbash">Git Bash</span></h3>
-      <p><strong>1.1 Paramètres attribués :</strong> Notez votre identifiant (<code>VOTRE_USER</code>, ex. <code>etudiant1</code> à <code>etudiant23</code>) et le mot de passe initial communiqué par l'enseignante.</p>
-      <p><strong>1.2 Générer la paire de clés Ed25519 :</strong> Ouvrez <strong>Git Bash</strong> (clic droit sur le Bureau &gt; <em>Open Git Bash here</em>) et exécutez :</p>
+      <h3><span class="step-badge">ÉTAPE 1</span> Installation de Git et de SmarTTY sur Windows (10 min) <span class="tool-badge tool-gitbash">Windows</span></h3>
+      <p><strong>1.1 Installer Git pour Windows (Git Bash) :</strong></p>
+      <ul>
+        <li>Téléchargez l'installeur officiel sur <a href="https://git-scm.com/download/win" target="_blank" rel="noopener"><strong>git-scm.com/download/win</strong></a> (version 64-bit).</li>
+        <li>Lancez l'installation en conservant les options par défaut (cela installe <strong>Git</strong>, <strong>Git Bash</strong> et <strong>OpenSSH</strong>).</li>
+        <li>Vérifiez l'installation en ouvrant <strong>Git Bash</strong> (clic droit sur le Bureau &gt; <em>Open Git Bash here</em>) puis tapez :</li>
+      </ul>
+      <pre><code>git --version
+ssh -V</code></pre>
+
+      <p><strong>1.2 Installer SmarTTY (client SSH &amp; explorateur SFTP graphique) :</strong></p>
+      <ul>
+        <li>Téléchargez et installez <strong>SmarTTY</strong> depuis <a href="https://sysprogs.com/SmarTTY/" target="_blank" rel="noopener"><strong>sysprogs.com/SmarTTY</strong></a> (version standard Windows).</li>
+        <li>Vérifiez que l'application se lance correctement depuis le menu Démarrer de Windows.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="etape2">
+      <h3><span class="step-badge">ÉTAPE 2</span> Création de votre compte GitHub (10 min) <span class="tool-badge tool-github">GitHub</span></h3>
+      <ol>
+        <li>Ouvrez votre navigateur et rendez-vous sur <a href="https://github.com/signup" target="_blank" rel="noopener"><strong>https://github.com/signup</strong></a> (ou connectez-vous si vous avez déjà un compte).</li>
+        <li>Créez votre compte personnel avec une adresse email valide, un mot de passe robuste et un nom d'utilisateur clair (noté <code>VOTRE_PSEUDO_GITHUB</code> dans la suite du TP).</li>
+        <li>Validez votre adresse email via le code reçu dans votre boîte de réception.</li>
+      </ol>
+    </section>
+
+    <section class="card" id="etape3">
+      <h3><span class="step-badge">ÉTAPE 3</span> Génération de votre Paire de Clés SSH sur Windows (15 min) <span class="tool-badge tool-gitbash">Git Bash</span></h3>
+      <p><strong>3.1 Paramètres serveur attribués :</strong> Notez votre identifiant (<code>VOTRE_USER</code>, de <code>etudiant1</code> à <code>etudiant23</code>) et le mot de passe initial communiqués par l'enseignante.</p>
+      <p><strong>3.2 Générer la paire de clés Ed25519 dans Git Bash :</strong></p>
       <pre><code>ssh-keygen -t ed25519 -C "VOTRE_USER@devops-tp3"</code></pre>
       <p>Appuyez 3 fois sur <strong>Entrée</strong> (emplacement par défaut <code>~/.ssh/id_ed25519</code>, passphrase vide).</p>
-      <p><strong>1.3 Vérifier et copier votre clé publique :</strong></p>
+      <p><strong>3.3 Vérifier et copier votre clé publique :</strong></p>
       <pre><code>ls -la ~/.ssh
 pwd -W
 cat ~/.ssh/id_ed25519.pub</code></pre>
       <div class="callout callout-check">
-        <strong>Vérification :</strong> La ligne affichée commence par <code>ssh-ed25519 AAAAC3...</code> et se termine par <code>VOTRE_USER@devops-tp3</code>. Copiez toute la ligne.
+        <strong>Vérification :</strong> La ligne affichée commence par <code>ssh-ed25519 AAAAC3...</code> et se termine par <code>VOTRE_USER@devops-tp3</code>. Copiez toute cette ligne.
       </div>
     </section>
 
-    <section class="card" id="etape2">
-      <h3><span class="step-badge">ÉTAPE 2</span> Connexion au VPS via SmarTTY &amp; Migration vers Clé SSH (25 min) <span class="tool-badge tool-smartty">SmarTTY</span></h3>
-      <p><strong>2.1 Première connexion par mot de passe :</strong> Lancez <strong>SmarTTY</strong>, cliquez sur <em>New SSH Connection</em> et renseignez les champs comme ci-dessous :</p>
+    <section class="card" id="etape4">
+      <h3><span class="step-badge">ÉTAPE 4</span> Ajout de votre Clé SSH sur votre compte GitHub (10 min) <span class="tool-badge tool-github">GitHub</span> <span class="tool-badge tool-gitbash">Git Bash</span></h3>
+      <p><strong>4.1 Enregistrer la clé publique sur GitHub :</strong> Sur <strong>github.com</strong>, cliquez sur votre avatar (en haut à droite) &gt; <em>Settings</em> &gt; <em>SSH and GPG keys</em> &gt; bouton vert <em>New SSH key</em> :</p>
+      <ul>
+        <li><strong>Title :</strong> <code>Windows-GitBash-TP3</code></li>
+        <li><strong>Key type :</strong> <code>Authentication Key</code></li>
+        <li><strong>Key :</strong> Collez le contenu complet de <code>~/.ssh/id_ed25519.pub</code></li>
+      </ul>
+      <p>Cliquez sur <strong>Add SSH key</strong>.</p>
+      <p><strong>4.2 Valider la liaison SSH depuis Git Bash :</strong></p>
+      <pre><code>ssh -T git@github.com</code></pre>
+      <p>Tapez <code>yes</code> si Git Bash demande de confirmer l'authenticité de <code>github.com</code>.</p>
+      <div class="callout callout-check">
+        <strong>Vérification :</strong> GitHub répond <code>Hi VOTRE_PSEUDO_GITHUB! You've successfully authenticated, but GitHub does not provide shell access.</code>
+      </div>
+    </section>
+
+    <section class="card" id="etape5">
+      <h3><span class="step-badge">ÉTAPE 5</span> Connexion au VPS Contabo via SmarTTY (Mot de passe → Clé SSH) (20 min) <span class="tool-badge tool-smartty">SmarTTY</span></h3>
+      <p><strong>5.1 Première connexion avec votre identifiant et mot de passe :</strong> Lancez <strong>SmarTTY</strong>, cliquez sur <em>New SSH Connection</em> et renseignez :</p>
+      <ul>
+        <li><strong>Host Name :</strong> <code>158.220.110.5</code></li>
+        <li><strong>User Name :</strong> <code>VOTRE_USER</code> (<code>etudiant1</code> à <code>etudiant23</code>)</li>
+        <li><strong>Authentication method :</strong> sélectionnez <strong>Password</strong> et saisissez le mot de passe fourni par l'enseignante.</li>
+        <li><strong>Important :</strong> décochez <em>« Setup public key authentication and don't ask for password again »</em> puis cliquez sur <strong>Connect</strong>.</li>
+      </ul>
 
       <div class="visual-box">
         <div class="visual-caption">Figure 2 — Interface réelle SmarTTY : « Setup new SSH connection »</div>
@@ -700,12 +750,12 @@ cat ~/.ssh/id_ed25519.pub</code></pre>
               <li><strong>Host Name :</strong> <code>158.220.110.5</code></li>
               <li><strong>User Name :</strong> <code>etudiantX</code> (votre identifiant)</li>
             </ul>
-            <p style="font-weight: 700; color: #0f172a; margin-bottom: 0.35rem;">1re connexion (Étape 2.1) :</p>
+            <p style="font-weight: 700; color: #0f172a; margin-bottom: 0.35rem;">1re connexion (Étape 5.1) :</p>
             <ul style="margin-left: 1.15rem; margin-bottom: 0.75rem;">
               <li>Sélectionnez <strong>Password</strong> et saisissez le mot de passe initial.</li>
-              <li><strong>Important :</strong> décochez <em>« Setup public key authentication and don't ask for password again »</em> afin de conserver la maîtrise de votre clé OpenSSH Git Bash.</li>
+              <li>Décochez <em>« Setup public key authentication and don't ask for password again »</em> pour installer manuellement votre clé OpenSSH.</li>
             </ul>
-            <p style="font-weight: 700; color: #15803d; margin-bottom: 0.35rem;">Reconnexion par clé SSH (Étape 2.3) :</p>
+            <p style="font-weight: 700; color: #15803d; margin-bottom: 0.35rem;">Reconnexion par clé SSH (Étape 5.3) :</p>
             <ul style="margin-left: 1.15rem; margin-bottom: 0;">
               <li>Sélectionnez <strong>OpenSSH key</strong>.</li>
               <li>Cochez <strong>Override default key location</strong>, cliquez sur l'icône dossier et choisissez <code>C:\Users\&lt;Nom&gt;\.ssh\id_ed25519</code>.</li>
@@ -715,7 +765,7 @@ cat ~/.ssh/id_ed25519.pub</code></pre>
         </div>
       </div>
 
-      <p><strong>2.2 Installer votre clé publique sur le serveur :</strong> Dans le terminal SmarTTY ouvert sur le VPS, exécutez :</p>
+      <p><strong>5.2 Ajouter votre clé publique aux clés autorisées sur le serveur :</strong> Dans le terminal SmarTTY ouvert sur le VPS, exécutez :</p>
       <pre><code>whoami
 ls -ld /var/www/html/VOTRE_USER
 mkdir -p ~/.ssh
@@ -724,51 +774,24 @@ echo "COLLEZ_VOTRE_CLE_PUBLIQUE_ICI" >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 cat ~/.ssh/authorized_keys</code></pre>
 
-      <p><strong>2.3 Tester la reconnexion sans mot de passe :</strong> Fermez la session (<code>exit</code>), ouvrez une nouvelle connexion SmarTTY en choisissant <strong>Authentication : Public key</strong> et en sélectionnant votre clé privée <code>C:\Users\&lt;Nom&gt;\.ssh\id_ed25519</code> (cochez <em>Save password/key</em>).</p>
+      <p><strong>5.3 Se reconnecter avec SmarTTY sans mot de passe :</strong> Fermez la session (<code>exit</code>), ouvrez une nouvelle connexion SmarTTY en sélectionnant <strong>OpenSSH key</strong> + <strong>Override default key location</strong> (<code>C:\Users\&lt;Nom&gt;\.ssh\id_ed25519</code>), cochez <em>Save this connection to connections list</em> et cliquez sur <strong>Connect</strong>.</p>
       <div class="callout callout-check">
-        <strong>Vérification :</strong> La connexion au VPS s'établit instantanément sans demande de mot de passe.
+        <strong>Vérification :</strong> La connexion au VPS s'établit directement par clé SSH sans qu'aucun mot de passe ne soit demandé.
       </div>
     </section>
 
-    <section class="card" id="etape3">
-      <h3><span class="step-badge">ÉTAPE 3</span> Configuration du Compte GitHub &amp; Liaison SSH (15 min) <span class="tool-badge tool-github">GitHub</span> <span class="tool-badge tool-gitbash">Git Bash</span></h3>
-      <p><strong>3.1 Ajouter votre clé publique sur GitHub :</strong> Dans votre navigateur, connectez-vous à <strong>github.com</strong> &gt; Avatar &gt; <em>Settings</em> &gt; <em>SSH and GPG keys</em> &gt; <em>New SSH key</em> :</p>
-      <ul>
-        <li><strong>Title :</strong> <code>Windows-GitBash-TP3</code></li>
-        <li><strong>Key type :</strong> <code>Authentication Key</code></li>
-        <li><strong>Key :</strong> Collez le contenu de <code>~/.ssh/id_ed25519.pub</code></li>
-      </ul>
-      <p><strong>3.2 Valider la liaison SSH depuis Git Bash :</strong></p>
-      <pre><code>ssh -T git@github.com</code></pre>
-      <div class="callout callout-check">
-        <strong>Vérification :</strong> GitHub répond <code>Hi VOTRE_PSEUDO_GITHUB! You've successfully authenticated, but GitHub does not provide shell access.</code>
-      </div>
-    </section>
-
-    <section class="card" id="etape4">
-      <h3><span class="step-badge">ÉTAPE 4</span> Prise en main du dépôt <code>DevOps_TP3</code>, Branches &amp; Push GitHub (30 min) <span class="tool-badge tool-gitbash">Git Bash</span></h3>
-      <p><strong>4.1 Configurer votre identité Git locale :</strong></p>
+    <section class="card" id="etape6">
+      <h3><span class="step-badge">ÉTAPE 6</span> Cloner le dépôt officiel, créer <code>devops-tp3</code> sur GitHub &amp; Pousser (25 min) <span class="tool-badge tool-gitbash">Git Bash</span> <span class="tool-badge tool-github">GitHub</span></h3>
+      <p><strong>6.1 Configurer votre identité Git locale dans Git Bash :</strong></p>
       <pre><code>git config --global user.name "Prenom Nom"
 git config --global user.email "votre.email@exemple.com"
 git config --global init.defaultBranch main</code></pre>
 
-      <p><strong>4.2 Créer votre propre dépôt sur GitHub (Fork ou Nouveau dépôt) et cloner :</strong></p>
-      <ol>
-        <li>Rendez-vous sur le dépôt initial de l'enseignante : <a href="https://github.com/nadaDevops/DevOps_TP3" target="_blank" rel="noopener"><strong>https://github.com/nadaDevops/DevOps_TP3</strong></a>.</li>
-        <li>Cliquez sur <strong>Fork</strong> (en haut à droite), décochez <em>« Copy the main branch only »</em> afin de conserver toutes les branches (dont <code>feature/monitoring-widget</code>), puis cliquez sur <strong>Create fork</strong>. Vous obtenez votre propre dépôt : <code>https://github.com/VOTRE_PSEUDO_GITHUB/DevOps_TP3</code>.</li>
-        <li>Clonez <strong>votre fork</strong> en SSH dans Git Bash :</li>
-      </ol>
+      <p><strong>6.2 Cloner le dépôt officiel fourni sur votre machine :</strong></p>
       <pre><code>cd ~
-git clone git@github.com:VOTRE_PSEUDO_GITHUB/DevOps_TP3.git
-cd DevOps_TP3
-git remote -v</code></pre>
-      <div class="callout callout-warn">
-        <strong>Si vous avez cloné directement le dépôt de l'enseignante (sans Fork) :</strong> vous n'aurez pas le droit d'y faire un <code>git push</code>. Créez un nouveau dépôt public vide nommé <code>DevOps_TP3</code> sur votre compte GitHub (<code>+ &gt; New repository</code>, sans README), puis changez l'adresse <code>origin</code> vers votre compte avant de continuer :
-        <pre style="margin-top:0.5rem; margin-bottom:0;"><code>git remote set-url origin git@github.com:VOTRE_PSEUDO_GITHUB/DevOps_TP3.git
-git remote -v</code></pre>
-      </div>
-
-      <p><strong>4.3 Observer l'historique, les branches et les tags :</strong></p>
+git clone https://github.com/nadaDevops/DevOps_TP3.git devops-tp3
+cd devops-tp3</code></pre>
+      <p>Inspectez l'historique complet, les branches et les tags du projet :</p>
       <pre><code>git log --oneline --graph --all --decorate
 git branch -a
 git tag -n</code></pre>
@@ -810,31 +833,32 @@ git tag -n</code></pre>
         </svg>
       </div>
 
-      <p><strong>4.4 Exercice pratique sur la branche ouverte et Push dans votre Fork :</strong></p>
-      <p>Comparez <code>main</code> avec la branche distante non fusionnée <code>origin/feature/monitoring-widget</code> (après un <code>git clone</code>, les branches secondaires sont d'abord référencées sous <code>origin/</code>), basculez dessus pour la créer localement, puis fusionnez-la dans <code>main</code> avec un commit de merge explicite et <strong>poussez le projet dans votre propre fork GitHub</strong> :</p>
-      <pre><code>git diff main..origin/feature/monitoring-widget
-git switch feature/monitoring-widget
-git switch main
-git merge --no-ff feature/monitoring-widget -m "merge: intégration du widget de monitoring"
+      <p><strong>6.3 Créer votre nouveau dépôt personnel <code>devops-tp3</code> sur GitHub :</strong></p>
+      <ol>
+        <li>Retournez sur <strong>github.com</strong>, cliquez sur <strong>+</strong> (en haut à droite) &gt; <strong>New repository</strong>.</li>
+        <li><strong>Repository name :</strong> <code>devops-tp3</code></li>
+        <li>Visibilité : <strong>Public</strong> (ne cochez aucune option d'initialisation README, .gitignore ou license).</li>
+        <li>Cliquez sur <strong>Create repository</strong>.</li>
+      </ol>
+
+      <p><strong>6.4 Changer l'URL <code>remote</code> et pousser le projet dans votre dépôt personnel :</strong></p>
+      <p>De retour dans Git Bash, reliez votre dépôt local à <strong>votre</strong> nouveau dépôt GitHub et effectuez votre premier <code>git push</code> :</p>
+      <pre><code>git remote set-url origin git@github.com:VOTRE_PSEUDO_GITHUB/devops-tp3.git
 git remote -v
 git push -u origin main --tags</code></pre>
-      <p style="font-size:0.9rem; color:#475569;"><em>Astuce :</em> vérifiez que <code>git remote -v</code> affiche bien <code>VOTRE_PSEUDO_GITHUB/DevOps_TP3.git</code> (et non <code>nadaDevops/DevOps_TP3.git</code>) avant d'exécuter <code>git push -u origin main --tags</code>.</p>
       <div class="callout callout-check">
-        <strong>Vérification avant l'étape 5 :</strong> Actualisez <strong>votre fork</strong> sur GitHub (<code>https://github.com/VOTRE_PSEUDO_GITHUB/DevOps_TP3</code>) : les fichiers <code>index.html</code>, <code>style.css</code>, <code>README.md</code>, <code>.github/workflows/deploy.yml</code> ainsi que votre commit de fusion doivent impérativement être en ligne sur votre dépôt personnel avant de passer au clonage sur le VPS.
+        <strong>Vérification :</strong> Actualisez <code>https://github.com/VOTRE_PSEUDO_GITHUB/devops-tp3</code> dans votre navigateur : tout le code (<code>index.html</code>, <code>style.css</code>, <code>README.md</code>, <code>.github/workflows/deploy.yml</code>), l'historique et les tags sont en ligne sur <strong>votre</strong> dépôt.
       </div>
     </section>
 
     <div class="bloc-banner">PAUSE (10 minutes) — BLOC 2 : Déploiement sur Serveur Apache 2 &amp; Boucle CI/CD (90 minutes)</div>
 
-    <section class="card" id="etape5">
-      <h3><span class="step-badge">ÉTAPE 5</span> Initialisation de l'Espace Web sur le VPS (20 min) <span class="tool-badge tool-smartty">SmarTTY</span> <span class="tool-badge tool-browser">Navigateur</span></h3>
-      <div class="callout callout-warn">
-        <strong>Prérequis :</strong> Vérifiez que vous avez bien créé votre <strong>fork</strong> et poussé votre projet dedans à l'étape 4.4. Vous devez cloner <strong>votre propre dépôt GitHub</strong> (<code>VOTRE_PSEUDO_GITHUB/DevOps_TP3</code>) sur le VPS — et non le dépôt initial de l'enseignante — afin que votre pipeline GitHub Actions puisse déployer vos futures modifications.
-      </div>
-      <p><strong>5.1 Cloner votre fork dans votre dossier Apache personnel :</strong> Dans SmarTTY, placez-vous dans <code>/var/www/html/VOTRE_USER</code> et clonez <strong>votre</strong> dépôt :</p>
+    <section class="card" id="etape7">
+      <h3><span class="step-badge">ÉTAPE 7</span> Cloner votre dépôt sur le VPS Contabo &amp; Tester dans le Navigateur (20 min) <span class="tool-badge tool-smartty">SmarTTY</span> <span class="tool-badge tool-browser">Navigateur</span></h3>
+      <p><strong>7.1 Cloner votre dépôt dans votre dossier Apache personnel :</strong> Dans votre session <strong>SmarTTY</strong> connectée au serveur Contabo (<code>158.220.110.5</code>), placez-vous dans <code>/var/www/html/VOTRE_USER</code> et clonez <strong>votre propre dépôt GitHub</strong> (notez l'espace suivi du point <code>.</code>) :</p>
       <pre><code>cd /var/www/html/VOTRE_USER
 pwd
-git clone https://github.com/VOTRE_PSEUDO_GITHUB/DevOps_TP3.git .
+git clone https://github.com/VOTRE_PSEUDO_GITHUB/devops-tp3.git .
 ls -la</code></pre>
 
       <div class="visual-box">
@@ -846,7 +870,7 @@ ls -la</code></pre>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.85rem; font-size: 0.9rem;">
             <div style="background: #ffffff; border: 1px solid #cbd5e1; border-left: 4px solid #0284c7; border-radius: 6px; padding: 0.75rem 1rem;">
               <strong style="color: #0369a1;">1. Panneau gauche — File List (SFTP)</strong>
-              <p style="margin: 0.35rem 0 0;">Affiche les fichiers distants en direct. Cliquez sur l'icône verte d'actualisation après un déploiement CI/CD pour vérifier la présence et la taille de <code>index.html</code> et <code>style.css</code> dans <code>/var/www/html/etudiantX</code>.</p>
+              <p style="margin: 0.35rem 0 0;">Affiche les fichiers distants en direct. Cliquez sur l'icône verte d'actualisation après un déploiement CI/CD pour vérifier la mise à jour de <code>index.html</code> et <code>style.css</code> dans <code>/var/www/html/etudiantX</code>.</p>
             </div>
             <div style="background: #ffffff; border: 1px solid #cbd5e1; border-left: 4px solid #16a34a; border-radius: 6px; padding: 0.75rem 1rem;">
               <strong style="color: #15803d;">2. Panneau droit — Smart Terminal</strong>
@@ -856,24 +880,27 @@ ls -la</code></pre>
         </div>
       </div>
 
-      <p><strong>5.2 Tester l'accès HTTP public :</strong> Ouvrez <code>http://158.220.110.5/VOTRE_USER/</code> dans votre navigateur.</p>
+      <p><strong>7.2 Consulter le projet dans le navigateur :</strong> Ouvrez <code>http://158.220.110.5/VOTRE_USER/</code> dans votre navigateur web.</p>
       <div class="callout callout-check">
-        <strong>Vérification :</strong> Le tableau de bord <em>Portail DevOps - TP 3</em> s'affiche avec son design sombre et son widget de monitoring.
+        <strong>Vérification :</strong> Le tableau de bord <em>Portail DevOps - TP 3 (v2.0)</em> s'affiche en ligne depuis Apache 2.
       </div>
     </section>
 
-    <section class="card" id="etape6">
-      <h3><span class="step-badge">ÉTAPE 6</span> Clé SSH de Déploiement &amp; Secrets GitHub (25 min) <span class="tool-badge tool-gitbash">Git Bash</span> <span class="tool-badge tool-smartty">SmarTTY</span> <span class="tool-badge tool-github">GitHub</span></h3>
-      <p><strong>6.1 Générer une clé dédiée au robot GitHub Actions [Git Bash] :</strong></p>
+    <section class="card" id="etape8">
+      <h3><span class="step-badge">ÉTAPE 8</span> 2e Clé SSH de Déploiement &amp; GitHub Actions Secrets (30 min) <span class="tool-badge tool-gitbash">Git Bash</span> <span class="tool-badge tool-smartty">SmarTTY</span> <span class="tool-badge tool-github">GitHub</span></h3>
+      <p><strong>8.1 Générer une deuxième clé SSH dédiée à GitHub Actions [Git Bash] :</strong></p>
       <pre><code>ssh-keygen -t ed25519 -f ~/.ssh/github_deploy_key -N "" -C "github-actions@VOTRE_USER"
 cat ~/.ssh/github_deploy_key.pub</code></pre>
 
-      <p><strong>6.2 Autoriser cette clé sur le VPS [SmarTTY] :</strong></p>
+      <p><strong>8.2 Autoriser cette 2e clé sur le serveur Contabo [SmarTTY] :</strong></p>
       <pre><code>echo "COLLEZ_LA_CLE_PUBLIQUE_GITHUB_DEPLOY_KEY_ICI" >> ~/.ssh/authorized_keys
 wc -l ~/.ssh/authorized_keys</code></pre>
-      <p>La commande <code>wc -l</code> doit afficher <code>2</code> (votre clé SmarTTY + la clé du robot CI/CD).</p>
+      <p>La commande <code>wc -l</code> doit afficher <code>2</code> (votre clé personnelle SmarTTY + la clé du robot GitHub Actions).</p>
 
-      <p><strong>6.3 Enregistrer les 4 Secrets dans GitHub :</strong> Affichez la clé privée dans Git Bash (<code>cat ~/.ssh/github_deploy_key</code>), puis sur GitHub allez dans <em>Settings &gt; Secrets and variables &gt; Actions &gt; New repository secret</em> :</p>
+      <p><strong>8.3 Ajouter les 4 Secrets dans votre dépôt GitHub <code>devops-tp3</code> :</strong></p>
+      <p>Dans Git Bash, affichez la clé privée et copiez-la intégralement (de <code>-----BEGIN OPENSSH PRIVATE KEY-----</code> jusqu'à <code>-----END OPENSSH PRIVATE KEY-----</code>) :</p>
+      <pre><code>cat ~/.ssh/github_deploy_key</code></pre>
+      <p>Sur GitHub, allez dans votre dépôt <code>devops-tp3</code> &gt; <em>Settings &gt; Secrets and variables &gt; Actions &gt; New repository secret</em> et créez les 4 secrets suivants :</p>
 
       <div class="visual-box">
         <div class="visual-caption">Figure 5 — Configuration des 4 Repository Secrets dans GitHub Actions</div>
@@ -887,57 +914,25 @@ wc -l ~/.ssh/authorized_keys</code></pre>
           </div>
         </div>
       </div>
+
+      <p><strong>8.4 Vérifier le workflow <code>.github/workflows/deploy.yml</code> :</strong> Le fichier déjà présent dans votre dépôt contient les deux jobs séquentiels (<code>ci-verification</code> puis <code>cd-deploiement</code> avec <code>needs: ci-verification</code>).</p>
     </section>
 
-    <section class="card" id="etape7">
-      <h3><span class="step-badge">ÉTAPE 7</span> Analyse &amp; Exécution du Pipeline CI/CD <code>deploy.yml</code> (25 min) <span class="tool-badge tool-github">GitHub</span></h3>
-      <p>Le dépôt <code>DevOps_TP3</code> inclut déjà le fichier <code>.github/workflows/deploy.yml</code> structuré en deux jobs séquentiels grâce à <code>needs: ci-verification</code> :</p>
-      <pre><code>name: CI/CD - Portail DevOps TP 3
+    <section class="card" id="etape9">
+      <h3><span class="step-badge">ÉTAPE 9</span> Modifier <code>index.html</code>, Commit, Push &amp; Vérification CI/CD (35 min) <span class="tool-badge tool-gitbash">Git Bash</span> <span class="tool-badge tool-github">GitHub</span> <span class="tool-badge tool-browser">Navigateur</span></h3>
+      <p><strong>9.1 Modifier <code>index.html</code> sur votre poste :</strong> Ouvrez <code>index.html</code> (ou utilisez <code>sed</code>) pour personnaliser la version et votre chemin Apache :</p>
+      <pre><code>sed -i 's/&gt;v2.0&lt;/&gt;v2.1-VOTRE_USER&lt;/' index.html
+sed -i 's|/var/www/html/&amp;lt;user&amp;gt;|/var/www/html/VOTRE_USER|' index.html
+git diff</code></pre>
 
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  ci-verification:
-    name: Vérification statique (HTML5 &amp; CSS3)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Récupération du code source
-        uses: actions/checkout@v4
-      - name: Vérification de la présence des fichiers requis
-        run: |
-          test -f index.html &amp;&amp; test -s index.html
-          test -f style.css &amp;&amp; test -s style.css
-      - name: Contrôle basique de validité HTML5 et CSS3
-        run: |
-          grep -qi "&lt;!DOCTYPE html&gt;" index.html
-          grep -qi "&lt;/html&gt;" index.html
-          grep -q 'href="style.css"' index.html
-          grep -q "{" style.css &amp;&amp; grep -q "}" style.css
-
-  cd-deploiement:
-    name: Déploiement SSH sur VPS Ubuntu (Apache 2)
-    needs: ci-verification
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configuration de la clé SSH et déploiement sur le VPS
-        env:
-          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          mkdir -p ~/.ssh &amp;&amp; chmod 700 ~/.ssh
-          printf '%s\n' "$VPS_SSH_KEY" &gt; ~/.ssh/id_deploy
-          chmod 600 ~/.ssh/id_deploy
-          ssh-keyscan -H "$VPS_HOST" &gt;&gt; ~/.ssh/known_hosts
-          ssh -i ~/.ssh/id_deploy "${VPS_USER}@${VPS_HOST}" "cd ${DEPLOY_PATH} &amp;&amp; git pull origin main"
-          rm -f ~/.ssh/id_deploy</code></pre>
+      <p><strong>9.2 Stager avec <code>git add .</code>, créer votre commit et pousser vers GitHub :</strong></p>
+      <pre><code>git status
+git add .
+git commit -m "feat: personnalisation portail pour VOTRE_USER (v2.1)"
+git push origin main</code></pre>
 
       <div class="visual-box">
-        <div class="visual-caption">Figure 6 — Vue attendue dans l'onglet GitHub Actions après un push sur main</div>
+        <div class="visual-caption">Figure 6 — Exécution automatique dans l'onglet GitHub Actions après votre git push</div>
         <div class="ui-window">
           <div class="gh-tabs"><span>Code</span><span class="gh-tab-active">Actions · CI/CD - Portail DevOps TP 3</span><span>Settings</span></div>
           <div class="gh-pipeline">
@@ -953,37 +948,24 @@ jobs:
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="card" id="etape8">
-      <h3><span class="step-badge">ÉTAPE 8</span> Test Grandeur Nature de la Boucle CI/CD (15 min) <span class="tool-badge tool-gitbash">Git Bash</span> <span class="tool-badge tool-browser">Navigateur</span></h3>
-      <p>Personnalisez le portail dans <code>index.html</code> avec votre identifiant et passez le badge en <code>v2.1-VOTRE_USER</code> :</p>
-      <pre><code>sed -i 's/&gt;v2.0&lt;/&gt;v2.1-VOTRE_USER&lt;/' index.html
-sed -i 's|/var/www/html/&amp;lt;user&amp;gt;|/var/www/html/VOTRE_USER|' index.html
-git diff
-git add index.html
-git commit -m "feat: personnalisation portail pour VOTRE_USER (v2.1)"
-git push origin main</code></pre>
+      <p><strong>9.3 Contrôler le déploiement automatique sur le serveur :</strong></p>
       <ol>
-        <li>Suivez l'exécution dans l'onglet <strong>Actions</strong> sur GitHub jusqu'aux 2 coches vertes.</li>
-        <li>Dans <strong>SmarTTY</strong>, actualisez l'explorateur de fichiers et vérifiez l'heure de modification de <code>index.html</code>.</li>
-        <li>Rechargez <code>http://158.220.110.5/VOTRE_USER/</code> dans votre navigateur : la version <code>v2.1-VOTRE_USER</code> s'affiche automatiquement.</li>
+        <li>Dans l'onglet <strong>Actions</strong> de votre dépôt GitHub <code>devops-tp3</code>, attendez que les deux jobs passent au vert (✓).</li>
+        <li>Rechargez l'URL <code>http://158.220.110.5/VOTRE_USER/</code> dans votre navigateur : votre badge <strong><code>v2.1-VOTRE_USER</code></strong> et votre chemin <code>/var/www/html/VOTRE_USER</code> sont déployés automatiquement en production !</li>
       </ol>
-    </section>
 
-    <section class="card" id="etape9">
-      <h3><span class="step-badge">ÉTAPE 9</span> Dépannage Rapide &amp; Livrables Attendus (5 min)</h3>
-      <h4>Dépannage rapide</h4>
+      <h4>Dépannage rapide en cas d'échec</h4>
       <ul>
-        <li><strong>Erreur YAML :</strong> Vérifiez qu'aucune tabulation n'a été insérée dans <code>.github/workflows/deploy.yml</code> (espaces uniquement).</li>
-        <li><strong>Erreur SSH (<code>Permission denied</code>) dans Actions :</strong> Vérifiez que <code>VPS_SSH_KEY</code> contient bien toute la clé privée <code>github_deploy_key</code> et que sa partie <code>.pub</code> est dans <code>~/.ssh/authorized_keys</code> sur le VPS.</li>
+        <li><strong>Erreur SSH (<code>exit code 255</code>) dans GitHub Actions :</strong> Vérifiez que <code>VPS_SSH_KEY</code> contient bien l'intégralité de la <strong>clé privée</strong> (<code>github_deploy_key</code>, de <code>BEGIN</code> à <code>END</code>) et que sa clé publique (<code>github_deploy_key.pub</code>) est bien dans <code>~/.ssh/authorized_keys</code> sur le VPS.</li>
+        <li><strong>Erreur de push (<code>Permission denied</code>) :</strong> Vérifiez avec <code>git remote -v</code> que <code>origin</code> pointe bien vers <code>git@github.com:VOTRE_PSEUDO_GITHUB/devops-tp3.git</code> et non vers <code>nadaDevops/DevOps_TP3.git</code>.</li>
         <li><strong>Conflit Git sur le serveur :</strong> Si un fichier a été édité manuellement sur le VPS, réinitialisez via SmarTTY : <code>cd /var/www/html/VOTRE_USER &amp;&amp; git reset --hard origin/main</code>.</li>
       </ul>
 
       <h4>Livrables attendus (Compte-rendu PDF avec 4 captures annotées)</h4>
       <ol>
         <li><strong>Sécurité SSH (SmarTTY) :</strong> Session active sur <code>158.220.110.5</code> en tant que <code>VOTRE_USER</code> par clé publique + sortie de <code>ls -la ~/.ssh</code>.</li>
-        <li><strong>Historique Git (Git Bash) :</strong> Résultat de <code>git log --oneline --graph --all --decorate</code> montrant les merges et tags.</li>
+        <li><strong>Historique Git (Git Bash) :</strong> Résultat de <code>git log --oneline --graph --all --decorate</code> montrant votre commit sur <code>main</code>.</li>
         <li><strong>Automatisation CI/CD (GitHub Actions) :</strong> Écran des logs du job <code>cd-deploiement</code> validé en vert montrant le <code>git pull origin main</code>.</li>
         <li><strong>Résultat en Production (Navigateur) :</strong> Fenêtre complète affichant <code>http://158.220.110.5/VOTRE_USER/</code> avec votre badge <code>v2.1-VOTRE_USER</code>.</li>
       </ol>
