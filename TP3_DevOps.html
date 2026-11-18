@@ -720,7 +720,12 @@ cat ~/.ssh/id_ed25519.pub</code></pre>
         <li><strong>Key :</strong> Collez le contenu complet de <code>~/.ssh/id_ed25519.pub</code></li>
       </ul>
       <p>Cliquez sur <strong>Add SSH key</strong>.</p>
-      <p><strong>4.2 Valider la liaison SSH depuis Git Bash :</strong></p>
+      <p><strong>4.2 Configurer votre identité Git globale sur votre machine [Git Bash] :</strong></p>
+      <p>Avant de cloner et de créer vos commits, enregistrez votre nom et l'adresse email de votre compte GitHub dans la configuration globale de Git :</p>
+      <pre><code>git config --global user.name "Prenom Nom"
+git config --global user.email "votre.email@exemple.com"
+git config --global init.defaultBranch main</code></pre>
+      <p><strong>4.3 Valider la liaison SSH depuis Git Bash :</strong></p>
       <pre><code>ssh -T git@github.com</code></pre>
       <p>Tapez <code>yes</code> si Git Bash demande de confirmer l'authenticité de <code>github.com</code>.</p>
       <div class="callout callout-check">
@@ -782,12 +787,7 @@ cat ~/.ssh/authorized_keys</code></pre>
 
     <section class="card" id="etape6">
       <h3><span class="step-badge">ÉTAPE 6</span> Cloner le dépôt officiel, créer <code>devops-tp3</code> sur GitHub &amp; Pousser (25 min) <span class="tool-badge tool-gitbash">Git Bash</span> <span class="tool-badge tool-github">GitHub</span></h3>
-      <p><strong>6.1 Configurer votre identité Git locale dans Git Bash :</strong></p>
-      <pre><code>git config --global user.name "Prenom Nom"
-git config --global user.email "votre.email@exemple.com"
-git config --global init.defaultBranch main</code></pre>
-
-      <p><strong>6.2 Cloner le dépôt officiel fourni sur votre machine :</strong></p>
+      <p><strong>6.1 Cloner le dépôt officiel fourni sur votre machine :</strong></p>
       <pre><code>cd ~
 git clone https://github.com/nadaDevops/DevOps_TP3.git devops-tp3
 cd devops-tp3</code></pre>
@@ -833,7 +833,7 @@ git tag -n</code></pre>
         </svg>
       </div>
 
-      <p><strong>6.3 Créer votre nouveau dépôt personnel <code>devops-tp3</code> sur GitHub :</strong></p>
+      <p><strong>6.2 Créer votre nouveau dépôt personnel <code>devops-tp3</code> sur GitHub :</strong></p>
       <ol>
         <li>Retournez sur <strong>github.com</strong>, cliquez sur <strong>+</strong> (en haut à droite) &gt; <strong>New repository</strong>.</li>
         <li><strong>Repository name :</strong> <code>devops-tp3</code></li>
@@ -841,7 +841,7 @@ git tag -n</code></pre>
         <li>Cliquez sur <strong>Create repository</strong>.</li>
       </ol>
 
-      <p><strong>6.4 Changer l'URL <code>remote</code> et pousser le projet dans votre dépôt personnel :</strong></p>
+      <p><strong>6.3 Changer l'URL <code>remote</code> et pousser le projet dans votre dépôt personnel :</strong></p>
       <p>De retour dans Git Bash, reliez votre dépôt local à <strong>votre</strong> nouveau dépôt GitHub et effectuez votre premier <code>git push</code> :</p>
       <pre><code>git remote set-url origin git@github.com:VOTRE_PSEUDO_GITHUB/devops-tp3.git
 git remote -v
