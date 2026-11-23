@@ -43,10 +43,27 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
+          set -euo pipefail
+
+          for secret_name in VPS_SSH_KEY VPS_HOST VPS_USER DEPLOY_PATH; do
+            if [ -z "${!secret_name:-}" ]; then
+              echo "::error::Le secret GitHub $secret_name est manquant ou vide."
+              exit 1
+            fi
+          done
+
+          key_file="$HOME/.ssh/id_deploy"
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
-          chmod 600 ~/.ssh/id_deploy
+          trap 'rm -f "$key_file"' EXIT
+
+          printf '%s\n' "$VPS_SSH_KEY" > "$key_file"
+          chmod 600 "$key_file"
           ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
-          ssh -i ~/.ssh/id_deploy "${VPS_USER}@${VPS_HOST}" "cd ${DEPLOY_PATH} && git pull origin main"
-          rm -f ~/.ssh/id_deploy
+
+          deploy_path_q=$(printf '%q' "$DEPLOY_PATH")
+          ssh -i "$key_file" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "${VPS_USER}@${VPS_HOST}" \
+            "git -C ${deploy_path_q} pull --ff-only origin main"
