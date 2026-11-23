@@ -43,10 +43,36 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
+          set -euo pipefail
+
+          for required in VPS_SSH_KEY VPS_HOST VPS_USER DEPLOY_PATH; do
+            if [ -z "${!required:-}" ]; then
+              echo "::error::Le secret GitHub $required n'est pas configuré."
+              exit 1
+            fi
+          done
+
+          if ! grep -Eq 'BEGIN (OPENSSH |RSA |EC |DSA )?PRIVATE KEY' <<<"$VPS_SSH_KEY"; then
+            echo "::error::VPS_SSH_KEY ne contient pas une clé privée SSH valide."
+            exit 1
+          fi
+
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
+          trap 'rm -f ~/.ssh/id_deploy' EXIT
+
           printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
-          ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
-          ssh -i ~/.ssh/id_deploy "${VPS_USER}@${VPS_HOST}" "cd ${DEPLOY_PATH} && git pull origin main"
-          rm -f ~/.ssh/id_deploy
+
+          if ! ssh-keyscan -T 10 -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/tmp/ssh-keyscan.log; then
+            echo "::error::Impossible de récupérer la clé SSH publique du VPS."
+            cat /tmp/ssh-keyscan.log
+            exit 1
+          fi
+
+          printf -v QUOTED_DEPLOY_PATH '%q' "$DEPLOY_PATH"
+          ssh -i ~/.ssh/id_deploy \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "${VPS_USER}@${VPS_HOST}" \
+            "cd $QUOTED_DEPLOY_PATH && git pull origin main"
